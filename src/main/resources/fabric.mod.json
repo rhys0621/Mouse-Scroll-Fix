@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "mouse-scroll-fix",
+  "version": "${version}",
+  "name": "Mouse Scroll Fix",
+  "description": "Fixes double scrolling in the main hotbar",
+  "authors": [
+    "Rhys"
+  ],
+  "contact": {},
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "me.rhys.fix.Mod"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "scroll-fix.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "fabric": "*",
+    "minecraft": "~1.21.10",
+    "java": ">=21"
+  }
+}
