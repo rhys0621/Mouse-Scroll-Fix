@@ -1,22 +1,22 @@
 package me.rhys.fix.mixin;
 
 import me.rhys.fix.Mod;
-import net.minecraft.client.input.Scroller;
+import net.minecraft.client.ScrollWheelHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Scroller.class)
-public class ScrollerMixin {
+@Mixin(ScrollWheelHandler.class)
+public class ScrollWheelMixin {
     @Unique
     private static long lastScroll = 0;
 
     @Unique
     private static int lastIndex = -1;
 
-    @Inject(method = "scrollCycling", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getNextScrollWheelSelection", at = @At("RETURN"), cancellable = true)
     private static void fixDoubleScroll(double amount, int selectedIndex,
                                         int total, CallbackInfoReturnable<Integer> cir) {
         long timestamp = System.currentTimeMillis();

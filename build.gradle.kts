@@ -1,14 +1,12 @@
 plugins {
-    id("fabric-loom") version "1.11-SNAPSHOT"
+    id("fabric-loom") version "1.14-SNAPSHOT"
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.google.protobuf") version "0.9.4"
 }
 
-val minecraftVersion = "1.21.10"
-val yarnMappings = "1.21.10+build.2"
-val loaderVersion = "0.17.3"
-val fabricVersion = "0.135.0+1.21.10"
+val minecraftVersion = "1.21.11"
+val loaderVersion = "0.18.2"
+val fabricVersion = "0.139.5+1.21.11"
 
 group = "me.rhys"
 version = "1.0-SNAPSHOT"
@@ -31,7 +29,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.36")
 
     minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings("net.fabricmc:yarn:$yarnMappings:v2")
+    mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
 }
@@ -86,7 +84,7 @@ tasks {
     }
 
     wrapper {
-        version = "8.14.3"
+        version = "9.2.1"
     }
 
     named<Jar>("sourcesJar") {
@@ -109,14 +107,8 @@ tasks {
         }
     }
 
-    build {
-        dependsOn(generateProto)
-    }
 
     remapJar {
-//        dependsOn(shadowJar)
-//        inputFile.set(shadowJar.get().archiveFile)
-
         archiveClassifier.set("")
     }
 
@@ -126,11 +118,6 @@ tasks {
 
         from(zipTree(shadowJar.get().archiveFile))
         archiveClassifier.set("fat")
-
-        // Apply Fabric remapping
-        doLast {
-            // This would need custom remapping logic if you want a fat jar with dependencies
-        }
     }
 }
 
